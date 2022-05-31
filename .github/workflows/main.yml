@@ -28,6 +28,17 @@ jobs:
           
       - name: Install Depencies
         run: yarn install
+        
+      - name: Build Client & Server
+        run: yarn workspace @85830/server build && yarn workspace @85830/client build
+        
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Test
+        run: yarn workspace @85830/server test
 
       # Runs a single command using the runners shell
       # - name: Run a one-line script
