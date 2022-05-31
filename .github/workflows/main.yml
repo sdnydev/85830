@@ -61,8 +61,13 @@ jobs:
             SESSION_SECRET = ${{ secrets.SESSION_SECRET }}
           write-mode: overwrite
           
+      - name: ls -la Dir 0
+        run: |
+          cd ./apps/server
+          ls -la
           
-      - name: ls -la Dir
+          
+      - name: ls -la Dir 1
         run: |
           cd /home/runner/work/85830/85830
           ls -la
