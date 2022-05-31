@@ -1,0 +1,59 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Build & Deploy
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        
+      - name: Switch to Branch
+        run: git checkout master
+        
+      - name: Install NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+          
+      - name: Install Dependencies
+        run: yarn install
+        
+      - name: Write .env File
+        uses: DamianReeves/write-file-action@v1.0
+        with:
+          path: ./apps/server/.env
+          contents:
+            POSTGRES_DB = ${{ secrets.POSTGRES_DB }}
+            POSTGRES_USER = ${{ secrets.POSTGRES_USER }}
+            POSTGRES_PASSWORD = ${{ secrets.POSTGRES_PASSWORD }}
+            POSTGRES_HOST = ${{ secrets.POSTGRES_HOST }}
+            POSTGRES_PORT = ${{ secrets.POSTGRES_PORT }}
+            DATABASE_URL = ${{ secrets.DATABASE_URL }}
+            SERVER_HOST = ${{ secrets.SERVER_HOST }}
+            SERVER_PORT = ${{ secrets.SERVER_PORT }}
+            SESSION_SECRET = ${{ secrets.SESSION_SECRET }}
+          write-mode: overwrite
+        
+      - name: Build Client & Server
+        run: yarn workspace @85830/server build && yarn workspace @85830/client build        
+      
+      - name: Deploy to DigitalOcean
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.DO_HOST }}
+          username: ${{ secrets.DO_USERNAME }}
+          password: ${{ secrets.DO_PASSWORD }}
+          port: ${{ secrets.DO_PORT }}
+          source: ./*
+          target: /var/www/85830.sdny.dev
