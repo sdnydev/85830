@@ -32,6 +32,25 @@ jobs:
       - name: Build Client & Server
         run: yarn workspace @85830/server build && yarn workspace @85830/client build
         
+      - name: Write .env File
+        uses: DamianReeves/write-file-action@v1.0
+        with:
+          path: ./apps/server/.env
+          contents: |
+            POSTGRES_DB = ${{ env.POSTGRES_DB }}
+            POSTGRES_USER = ${{ env.POSTGRES_USER }}
+            POSTGRES_PASSWORD = ${{ env.POSTGRES_PASSWORD }}
+            POSTGRES_HOST = ${{ env.POSTGRES_HOST }}
+            POSTGRES_PORT = ${{ env.POSTGRES_PORT }}
+            DATABASE_URL = ${{ env.DATABASE_URL }}
+            SERVER_HOST = ${{ env.SERVER_HOST }}
+            SERVER_PORT = ${{ env.SERVER_PORT }}
+            SESSION_SECRET = ${{ env.SESSION_SECRET }}
+          write-mode: overwrite
+          
+      - name: Run PostgreSQL
+        run: docker-compose up -d
+        
       - name: Run @85830/server
         run: node ./apps/server/dist/src/main.js
       
