@@ -48,11 +48,16 @@ jobs:
             SESSION_SECRET = ${{ secrets.SESSION_SECRET }}
           write-mode: overwrite
           
+      - name: ls -la Dir
+        run: |
+          cd ./apps/server
+          ls -la
+          
       - name: Run PostgreSQL
         run: docker-compose -f ./apps/server/docker-compose.yml up -d
         
-      - name: Run @85830/server
+      - name: Run server
         run: node ./apps/server/dist/src/main.js
       
-      - name: Run @85830/client
+      - name: Run client
         run: yarn dlx serve ./apps/client/dist
