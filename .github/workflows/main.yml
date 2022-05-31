@@ -52,7 +52,7 @@ jobs:
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.DO_HOST }}
-          username: ${{ secrets.DO_USER }}
+          username: ${{ secrets.DO_USERNAME }}
           password: ${{ secrets.DO_PASSWORD }}
           port: ${{ secrets.DO_PORT }}
           source: .
