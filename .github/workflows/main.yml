@@ -32,21 +32,7 @@ jobs:
       - name: Build Client & Server
         run: yarn workspace @85830/server build && yarn workspace @85830/client build
         
-      # - name: Write .env File
-      #   uses: DamianReeves/write-file-action@v1.0
-      #   with:
-      #     path: ./apps/server/.env
-      #     contents: |
-      #       POSTGRES_DB = ${{ secrets.POSTGRES_DB }}
-      #       POSTGRES_USER = ${{ secrets.POSTGRES_USER }}
-      #       POSTGRES_PASSWORD = ${{ secrets.POSTGRES_PASSWORD }}
-      #       POSTGRES_HOST = ${{ secrets.POSTGRES_HOST }}
-      #       POSTGRES_PORT = ${{ secrets.POSTGRES_PORT }}
-      #       DATABASE_URL = ${{ secrets.DATABASE_URL }}
-      #       SERVER_HOST = ${{ secrets.SERVER_HOST }}
-      #       SERVER_PORT = ${{ secrets.SERVER_PORT }}
-      #       SESSION_SECRET = ${{ secrets.SESSION_SECRET }}
-      #     write-mode: overwrite
+      
       #     
       # - name: ls -la Dir
       #   run: |
@@ -61,19 +47,25 @@ jobs:
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
           POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
+          
+      - name: Write .env File
+        uses: DamianReeves/write-file-action@v1.0
+        with:
+          path: ./apps/server/dist/src/.env
+          contents:
+            POSTGRES_DB = ${{ secrets.POSTGRES_DB }}
+            POSTGRES_USER = ${{ secrets.POSTGRES_USER }}
+            POSTGRES_PASSWORD = ${{ secrets.POSTGRES_PASSWORD }}
+            POSTGRES_HOST = ${{ secrets.POSTGRES_HOST }}
+            POSTGRES_PORT = ${{ secrets.POSTGRES_PORT }}
+            DATABASE_URL = ${{ secrets.DATABASE_URL }}
+            SERVER_HOST = ${{ secrets.SERVER_HOST }}
+            SERVER_PORT = ${{ secrets.SERVER_PORT }}
+            SESSION_SECRET = ${{ secrets.SESSION_SECRET }}
+          write-mode: overwrite
         
       - name: Run server
         run: node ./apps/server/dist/src/main.js
-        env:
-          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
-          POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          SERVER_HOST: ${{ secrets.SERVER_HOST }}
-          SERVER_PORT: ${{ secrets.SERVER_PORT }}
-          SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
       
       - name: Run client
         run: yarn dlx serve ./apps/client/dist
