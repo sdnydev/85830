@@ -26,26 +26,14 @@ jobs:
         with:
           node-version: 14
           
-      - name: Install Depencies
+      - name: Install Dependencies
         run: yarn install
         
       - name: Build Client & Server
         run: yarn workspace @85830/server build && yarn workspace @85830/client build
         
-  test:
-    needs: build
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Test
-        run: yarn workspace @85830/server test
-
-      # Runs a single command using the runners shell
-      # - name: Run a one-line script
-      #   run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      # - name: Run a multi-line script
-      #   run: |
-      #     echo Add other actions to build,
-      #     echo test, and deploy your project.
+      - name: Run @85830/server
+        run: node ./apps/server/dist/src/main.js
+      
+      - name: Run @85830/client
+        run: yarn dlx serve ./apps/client/dist
