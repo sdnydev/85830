@@ -31,6 +31,3 @@ jobs:
         
       - name: Build Client & Server
         run: yarn workspace @85830/server build && yarn workspace @85830/client build
-        
-      - name: Test Server
-        run: yarn workspace @85830/server test
