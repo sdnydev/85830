@@ -32,12 +32,6 @@ jobs:
       - name: Build Client & Server
         run: yarn workspace @85830/server build && yarn workspace @85830/client build
         
-      
-      #     
-      # - name: ls -la Dir
-      #   run: |
-      #     cd ./apps/server
-      #     ls -la
           
       - name: Run PostgreSQL
         run: docker-compose -f ./apps/server/docker-compose.yml up -d
@@ -63,6 +57,12 @@ jobs:
             SERVER_PORT = ${{ secrets.SERVER_PORT }}
             SESSION_SECRET = ${{ secrets.SESSION_SECRET }}
           write-mode: overwrite
+          
+          
+      - name: ls -la Dir
+        run: |
+          cd /home/runner/work/85830/85830
+          ls -la
         
       - name: Run server
         run: node ./apps/server/dist/src/main.js
