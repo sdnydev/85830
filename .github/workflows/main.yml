@@ -49,7 +49,7 @@ jobs:
           write-mode: overwrite
           
       - name: Run PostgreSQL
-        run: docker-compose up -d
+        run: docker-compose up -d -f ./apps/server/docker-compose.yml
         
       - name: Run @85830/server
         run: node ./apps/server/dist/src/main.js
