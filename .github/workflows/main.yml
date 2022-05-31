@@ -51,7 +51,7 @@ jobs:
       - name: Write .env File
         uses: DamianReeves/write-file-action@v1.0
         with:
-          path: ./apps/server/dist/src/.env
+          path: ./apps/server/dist/.env
           contents:
             POSTGRES_DB = ${{ secrets.POSTGRES_DB }}
             POSTGRES_USER = ${{ secrets.POSTGRES_USER }}
