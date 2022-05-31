@@ -21,16 +21,16 @@ jobs:
       - name: Switch to Branch
         run: git checkout develop
         
-      # - name: Install NodeJS
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: 14
-      #     
-      # - name: Install Dependencies
-      #   run: yarn install
-      #   
-      # - name: Build Client & Server
-      #   run: yarn workspace @85830/server build && yarn workspace @85830/client build
+      - name: Install NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+          
+      - name: Install Dependencies
+        run: yarn install
+        
+      - name: Build Client & Server
+        run: yarn workspace @85830/server build && yarn workspace @85830/client build
         
       - name: Write .env File
         uses: DamianReeves/write-file-action@v1.0
@@ -51,8 +51,8 @@ jobs:
       - name: Run PostgreSQL
         run: docker-compose -f ./apps/server/docker-compose.yml up -d
         
-      # - name: Run @85830/server
-      #   run: node ./apps/server/dist/src/main.js
-      # 
-      # - name: Run @85830/client
-      #   run: yarn dlx serve ./apps/client/dist
+      - name: Run @85830/server
+        run: node ./apps/server/dist/src/main.js
+      
+      - name: Run @85830/client
+        run: yarn dlx serve ./apps/client/dist
